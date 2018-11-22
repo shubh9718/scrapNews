@@ -27,5 +27,29 @@ def hindustannews():
             #iterate data over the rows with headers 'News and 'Link'
             writer.writerow(['News','Link'])
 
-            
+            #find all tags with 'a' like anchor tag for example
+            for news in nlist.findAll("a"):
+
+               #ignore if the text starts with read more
+                if news.text.startswith(" read more") or news.text.startswith("read more") :
+                    pass
+                
+                #else print the news
+                else:
+                    print(news.text)
+                    row = news
+                    #write the row in file
+                    writer.writerow(row)
+        #close the file
+        nfle.close()
+        
+        #read the file
+        df = pd.read_csv('News.csv')
+        df.drop('Link', axis = 1, inplace = True)
+        df.to_csv('News.csv', index = False)
+        
+    #if request is not granted by server print error message
+    else: 
+        print("Webpage Error") 
+        
 hindustannews()
